@@ -5,7 +5,7 @@
 npx expo start 
 
 # Running the Backend
-
+source venv/bin/activate
 uvicorn main:app --reload
 
 
