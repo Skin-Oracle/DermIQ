@@ -2,6 +2,7 @@
 
 # Running the frontend 
 cd frontend
+npm install
 npx expo start 
 
 # Running the Backend
