@@ -1,25 +1,29 @@
 # Skin Oracle 
 
-# Running the frontend 
-cd frontend
-npm install
-npx expo start 
+### FRONTEND
 
-# Running the Backend
+##### One Time Setup 
 
-### One time setup 
-cd backend 
-pip install -r requirement.txt
+`cd frontend`
+
+`npm install`
+
+##### Starting the Expo App
+
+`npx expo start`
 
 
-uvicorn main:app --reload
+### BACKEND 
+###### One time setup 
 
-### Setup virtual python env (ONE TIME) 
+`cd backend`
 
-- python -m venv venv 
+`pip install -r requirement.txt`
 
-### Activate the virtual python env 
+##### Starting the Backend
 
-- source venv/bin/activate
+`uvicorn main:app --reload`
+
+
 
 
