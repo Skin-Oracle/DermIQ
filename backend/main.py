@@ -1,4 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi.responses import JSONResponse
+
 import os
 
 # make a directory to store images
@@ -28,5 +30,6 @@ async def create_upload_file(uploaded_file: UploadFile = File(...)):
         file_object.write(uploaded_file.file.read())
 
     #todo pass the location of the file to image processing pipeline and get valid prediction
-
-    return {"info": f"file '{uploaded_file.filename}' saved at '{file_location}'", "prediction": -1}
+    response_content = {"info": f"file '{uploaded_file.filename}' saved at '{file_location}'", "prediction": -1}
+    
+    return JSONResponse(content=response_content)
