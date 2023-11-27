@@ -40,6 +40,8 @@ yarn-error.*
 expo-env.d.ts
 # @end expo-cli
 
+*vision/image_dir
+
 __pycache__
 
 venv/*
