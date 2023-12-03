@@ -42,6 +42,8 @@ expo-env.d.ts
 
 *vision/image_dir
 
+*vision/image_dir.zip
+
 __pycache__
 
 venv/*
