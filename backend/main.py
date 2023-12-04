@@ -11,6 +11,7 @@ from fastapi import Request, status
 from fastapi.exceptions import RequestValidationError
 
 import os, sys
+import openai_utils
 
 model_path = "trained_model.pt"
 
@@ -182,18 +183,26 @@ async def create_upload_file(uploaded_file: UploadFile = File(...)):
         raise HTTPException(status_code=415, detail="Invalid photo format")
     
     #stores the files in imagedir
-    file_location = os.path.join(image_dir, uploaded_file.filename)
-    with open(file_location, "wb+") as file_object:
-        file_object.write(uploaded_file.file.read())
 
+    try:
+        file_location = os.path.join(image_dir, uploaded_file.filename)
+        with open(file_location, "wb+") as file_object:
+            file_object.write(uploaded_file.file.read())
+    except Exception as e:
+        logging.error("File upload did not work.")
+        raise e
     
+    try:
+        prediction = model.predict(file_location)
+    except Exception as e:
+        logging.error("Prediction did not work")
+        raise e
+    try:
+        next_steps_care = openai_utils.next_steps(prediction)
 
-    prediction = model.predict(file_location)
-    response_content = {"Diagnosis" : prediction}
-    
+        logging.warning(next_steps_care)
+    except Exception as e:
+        logging.error("Next steps did not work")
+    response_content = {"Diagnosis" : prediction, "Next Steps": next_steps_care}
     return  JSONResponse(content = response_content)
     #return JSONResponse(content=response_content)
-
-
-
-
