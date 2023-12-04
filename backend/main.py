@@ -186,8 +186,7 @@ async def create_upload_file(uploaded_file: UploadFile = File(...)):
     with open(file_location, "wb+") as file_object:
         file_object.write(uploaded_file.file.read())
 
-    print(uploaded_file.filename)
-    #todo pass the location of the file to image processing pipeline and get valid prediction
+    
 
     prediction = model.predict(file_location)
     response_content = {"Diagnosis" : prediction}
