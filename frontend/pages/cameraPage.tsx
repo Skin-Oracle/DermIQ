@@ -3,6 +3,7 @@ import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import tw from 'twrnc'
 import React, {useState,useEffect } from 'react';
+import axios from 'axios';
 
 export default function cameraPage() {
   useEffect(() => {
@@ -57,10 +58,34 @@ export default function cameraPage() {
         to: dest,
       });
       setImages([...images, dest]);
+      uploadImageToBackend(dest);
     };
-
+    const uploadImageToBackend = async (imagePath: string) => {
+      const formData = new FormData();
+      const file = {
+        uri: imagePath,
+        type: 'image/jpeg', // or 'image/png', depending on your image type
+        name: imagePath.split('/').pop() // Extracts the filename
+      };
+    
+      // Cast the file object to 'any' to bypass TypeScript's type checking
+      formData.append('uploaded_file', file as any);
+    
+      axios.post('http://127.0.0.1:8000/predict', formData, {
+        headers: {
+          // The content-type should be multipart/form-data
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((response) => {
+        console.log('Response from backend:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error uploading image:', error);
+      });
+    };
+    
   const [images, setImages] = useState<string[]>([]);
-
   return (
     <View style={{flex:1, gap:20}}>
         <View style={tw `items-center mt-55`}>
