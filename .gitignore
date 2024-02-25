@@ -42,8 +42,13 @@ expo-env.d.ts
 
 *vision/image_dir
 
+*vision/dataverse_files
+
+*vision/training_data_dermaq
+
 *vision/image_dir.zip
 
 __pycache__
 
 venv/*
+
