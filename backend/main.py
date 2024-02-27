@@ -14,7 +14,6 @@ import os, sys
 
 model_path = "best_model.pt"
 
-
 class Derm_Vision:
     def __init__(self):
         self.model = torch.load(model_path, map_location=torch.device('cpu'))
@@ -43,7 +42,24 @@ class Derm_Vision:
         trans_img = trans_img.unsqueeze(0)
         outputs = self.model(trans_img)
         _, predicted = torch.max(outputs, 1)
-        return self.model_class_data[predicted.item()] 
+        diagnosis = self.model_class_data[predicted.item()]
+
+        probs = torch.nn.functional.softmax(outputs, dim=1).tolist()[0]
+        
+        Confidence = {"akiec" : probs[0], 
+                      "bcc": probs[1], 
+                      'benign': probs[2], 
+                      'bkl': probs[3], 
+                      'df': probs[4], 
+                      'mel': probs[5],  
+                      'nv': probs[6],  
+                      'other': probs[7],  
+                      'vasc': probs[8], }
+
+        result = {'Diagnosis': diagnosis, 'Confidence': Confidence}
+
+
+        return result
     
 app = FastAPI()
 model = Derm_Vision()
