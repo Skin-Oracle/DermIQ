@@ -135,9 +135,9 @@ async def create_upload_file(uploaded_file: UploadFile = File(...)):
     gray = cv2.cvtColor(image_resized, cv2.COLOR_BGR2GRAY)
     # bilateralfilter to remove the noise edges
     gray = cv2.bilateralFilter(gray, 9, 10, 10)
-    edged = cv2.Canny(gray, 50, 100)
-    edged = cv2.dilate(edged, None, iterations=1)
-    edged = cv2.erode(edged, None, iterations=1)
+    edged = cv2.Canny(gray, 15, 100)
+    edged = cv2.dilate(edged, None, iterations=12)
+    #edged = cv2.erode(edged, None, iterations=1)
     cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
 
